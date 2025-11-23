@@ -1,0 +1,31 @@
+.logo-container {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  img {
+    height: 100px; // Default height for desktop
+    width: auto; // Maintain aspect ratio
+    max-width: 100%; // Ensure it's responsive
+    object-fit: contain; // Ensure the image maintains its aspect ratio
+  }
+}
+
+// Tablet view
+@media (max-width: 992px) {
+  .logo-container img {
+    height: 100px;
+  }
+}
+// Mobile view
+@media (max-width: 768px) {
+  .logo-container img {
+    height: 40px;
+  }
+}
+
+// Small mobile devices
+@media (max-width: 480px) {
+  .logo-container img {
+    height: 40px;
+  }
+}

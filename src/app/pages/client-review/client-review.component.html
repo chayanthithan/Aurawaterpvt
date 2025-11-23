@@ -1,0 +1,114 @@
+<section class="client-reviews-section">
+  <!-- Background Decorations -->
+  <div class="bg-decoration">
+    <div class="bg-circle bg-circle-1"></div>
+    <div class="bg-circle bg-circle-2"></div>
+  </div>
+
+  <div class="container">
+    <!-- Section Header -->
+    <div class="section-header">
+      <span class="section-badge">
+        <i class="fas fa-quote-left"></i>
+        Testimonials
+      </span>
+      <h2 class="section-title">What Our Clients Say</h2>
+      <p class="section-subtitle">
+        Trusted by thousands of families and businesses across Sri Lanka
+      </p>
+    </div>
+
+    <!-- Reviews Slider -->
+    <div class="reviews-wrapper">
+      <!-- Navigation Arrows -->
+      <button class="nav-btn nav-prev" (click)="prevSlide()" aria-label="Previous review">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <button class="nav-btn nav-next" (click)="nextSlide()" aria-label="Next review">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+
+      <!-- Reviews Container -->
+      <div class="reviews-container">
+        <div class="reviews-track" [style.transform]="getTransform()">
+          <div class="review-card" *ngFor="let review of reviews">
+            <div>
+                <!-- Quote Icon -->
+                <div class="quote-icon">
+                    <i class="fas fa-quote-right"></i>
+                </div>
+
+                <!-- Rating Stars -->
+                <div class="rating">
+                    <i class="fas fa-star" *ngFor="let star of getStars(review.rating)"></i>
+                    <i class="far fa-star" *ngFor="let star of getEmptyStars(review.rating)"></i>
+                </div>
+                <div>
+                    <!-- Review Text -->
+                    <p class="review-text">{{ review.review }}</p>
+                </div>
+            <div>
+            <!-- Client Info -->
+            <div class="client-info">
+                <div class="client-image">
+                    <img [src]="review.image" [alt]="review.name">
+                </div>
+                <div class="client-details">
+                    <h4 class="client-name">{{ review.name }}</h4>
+                    <p class="client-role">{{ review.role }}</p>
+                    <p class="client-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        {{ review.location }}
+                    </p>
+                </div>
+            </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dots Indicator -->
+    <div class="dots-container">
+      <button
+        *ngFor="let dot of getDots(); let i = index"
+        class="dot"
+        [class.active]="i === currentIndex"
+        (click)="goToSlide(i)"
+        [attr.aria-label]="'Go to slide ' + (i + 1)">
+      </button>
+    </div>
+
+    <!-- Trust Badges -->
+    <div class="trust-badges">
+      <div class="trust-item">
+        <div class="trust-icon">
+          <i class="fas fa-users"></i>
+        </div>
+        <div class="trust-content">
+          <span class="trust-number">10,000+</span>
+          <span class="trust-label">Happy Customers</span>
+        </div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon">
+          <i class="fas fa-star"></i>
+        </div>
+        <div class="trust-content">
+          <span class="trust-number">4.9/5</span>
+          <span class="trust-label">Average Rating</span>
+        </div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon">
+          <i class="fas fa-award"></i>
+        </div>
+        <div class="trust-content">
+          <span class="trust-number">5+ Years</span>
+          <span class="trust-label">Of Excellence</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

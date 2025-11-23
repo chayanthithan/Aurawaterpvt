@@ -1,0 +1,397 @@
+// Variables
+$primary-color: #0891b2;
+$primary-dark: #0e7490;
+$primary-light: #22d3ee;
+$cyan-50: #ecfeff;
+$cyan-100: #cffafe;
+$text-dark: #1e293b;
+$text-gray: #64748b;
+$text-light: #94a3b8;
+$border-color: #e2e8f0;
+$bg-light: #f8fafc;
+$white: #ffffff;
+
+// Category Colors
+$commercial-color: #0891b2;
+$residential-color: #10b981;
+$industrial-color: #f59e0b;
+$institutional-color: #8b5cf6;
+
+// Section
+.recent-projects-section {
+  padding: 5rem 0;
+  background-color: $bg-light;
+}
+
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+// Section Header
+.section-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.section-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: $cyan-100;
+  border-radius: 9999px;
+  color: $primary-dark;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+
+  i {
+    font-size: 0.75rem;
+  }
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: $text-dark;
+  margin: 0 0 1rem 0;
+
+  @media (min-width: 768px) {
+    font-size: 2.5rem;
+  }
+}
+
+.section-subtitle {
+  font-size: 1rem;
+  color: $text-gray;
+  margin: 0;
+  max-width: 550px;
+  margin: 0 auto;
+
+  @media (min-width: 768px) {
+    font-size: 1.125rem;
+  }
+}
+
+// Category Filter
+.category-filter {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 2.5rem;
+}
+
+.filter-btn {
+  padding: 0.625rem 1.25rem;
+  border: 2px solid $border-color;
+  background: $white;
+  color: $text-gray;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: $primary-color;
+    color: $primary-color;
+  }
+
+  &.active {
+    background: $primary-color;
+    border-color: $primary-color;
+    color: $white;
+  }
+}
+
+// Projects Grid
+.projects-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  margin-bottom: 3rem;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+// Project Card
+.project-card {
+  background: $white;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid $border-color;
+  transition: all 0.4s ease;
+
+  &:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+
+    .project-image {
+      transform: scale(1.1);
+    }
+
+    .project-overlay {
+      opacity: 1;
+    }
+  }
+}
+
+// Project Image
+.project-image-wrapper {
+  position: relative;
+  height: 220px;
+  overflow: hidden;
+
+  @media (min-width: 1024px) {
+    height: 240px;
+  }
+}
+
+.project-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.project-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba($text-dark, 0.9) 0%, rgba($text-dark, 0.4) 50%, transparent 100%);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 2rem;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.view-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: $white;
+  color: $text-dark;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: 9999px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: $primary-color;
+    color: $white;
+    transform: scale(1.05);
+  }
+
+  i {
+    font-size: 0.75rem;
+  }
+}
+
+.project-category {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  padding: 0.375rem 0.875rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 9999px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: $white;
+
+  &[data-category="commercial"] {
+    background: $commercial-color;
+  }
+
+  &[data-category="residential"] {
+    background: $residential-color;
+  }
+
+  &[data-category="industrial"] {
+    background: $industrial-color;
+  }
+
+  &[data-category="institutional"] {
+    background: $institutional-color;
+  }
+}
+
+// Project Content
+.project-content {
+  padding: 1.5rem;
+}
+
+.project-location {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  color: $primary-color;
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+
+  i {
+    font-size: 0.75rem;
+  }
+}
+
+.project-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: $text-dark;
+  margin: 0 0 0.75rem 0;
+  line-height: 1.4;
+
+  @media (min-width: 768px) {
+    font-size: 1.25rem;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: $primary-color;
+    }
+  }
+}
+
+.project-description {
+  font-size: 0.9375rem;
+  color: $text-gray;
+  line-height: 1.6;
+  margin: 0 0 1rem 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+// Project Features
+.project-features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.feature-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  background: $cyan-50;
+  color: $primary-dark;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 0.375rem;
+  border: 1px solid $cyan-100;
+
+  i {
+    font-size: 0.625rem;
+    color: $primary-color;
+  }
+}
+
+// Project Footer
+.project-footer {
+  padding-top: 1rem;
+  border-top: 1px solid $border-color;
+}
+
+.read-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: $primary-color;
+  text-decoration: none;
+  transition: all 0.3s ease;
+
+  i {
+    font-size: 0.75rem;
+    transition: transform 0.3s ease;
+  }
+
+  &:hover {
+    color: $primary-dark;
+
+    i {
+      transform: translateX(5px);
+    }
+  }
+}
+
+// Section Action
+.section-action {
+  text-align: center;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  padding: 1rem 2rem;
+  border-radius: 0.625rem;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  &.btn-primary {
+    background: linear-gradient(135deg, $primary-light 0%, $primary-color 100%);
+    color: $white;
+    border: none;
+    box-shadow: 0 4px 14px 0 rgba($primary-color, 0.3);
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px 0 rgba($primary-color, 0.4);
+    }
+
+    i {
+      font-size: 0.875rem;
+    }
+  }
+}
+
+// Animation
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.project-card {
+  animation: fadeInUp 0.6s ease-out forwards;
+  opacity: 0;
+
+  @for $i from 1 through 6 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{$i * 0.1}s;
+    }
+  }
+}

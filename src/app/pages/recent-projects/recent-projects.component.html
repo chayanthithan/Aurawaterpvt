@@ -1,0 +1,79 @@
+<section class="recent-projects-section">
+  <div class="container">
+    <!-- Section Header -->
+    <div class="section-header">
+      <h2 class="section-title">Recent Projects</h2>
+      <p class="section-subtitle">
+        Explore our successful water management installations across Sri Lanka
+      </p>
+    </div>
+
+    <!-- Category Filter -->
+    <div class="category-filter">
+      <button 
+        *ngFor="let category of categories"
+        class="filter-btn"
+        [class.active]="activeCategory === category"
+        (click)="filterProjects(category)">
+        {{ category }}
+      </button>
+    </div>
+
+    <!-- Projects Grid -->
+    <div class="projects-grid">
+      <div class="project-card" *ngFor="let project of filteredProjects">
+        <!-- Project Image -->
+        <div class="project-image-wrapper">
+          <img [src]="project.image" [alt]="project.title" class="project-image">
+          <div class="project-overlay">
+            <a [routerLink]="['/projects', project.slug]" class="view-btn">
+              <i class="fas fa-eye"></i>
+              View Details
+            </a>
+          </div>
+          <span class="project-category" [attr.data-category]="project.categorySlug">
+            {{ project.category }}
+          </span>
+        </div>
+
+        <!-- Project Content -->
+        <div class="project-content">
+          <div class="project-location">
+            <i class="fas fa-map-marker-alt"></i>
+            {{ project.location }}
+          </div>
+          
+          <h3 class="project-title">
+            <a [routerLink]="['/projects', project.slug]">{{ project.title }}</a>
+          </h3>
+          
+          <p class="project-description">{{ project.description }}</p>
+
+          <!-- Project Features -->
+          <div class="project-features">
+            <span class="feature-tag" *ngFor="let feature of project.features">
+              <i class="fas fa-check-circle"></i>
+              {{ feature }}
+            </span>
+          </div>
+
+          <!-- Project Footer -->
+          <div class="project-footer">
+            <a [routerLink]="['/projects', project.slug]" class="read-more">
+              Learn More
+              <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- View All Button -->
+    <div class="section-action">
+      <a routerLink="/projects" class="btn btn-primary">
+        <i class="fas fa-th-large"></i>
+        View All Projects
+      </a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,295 @@
+<!-- Hero Section with Rotating Services -->
+<section class="hero-section">
+  <!-- <div class="container">
+    <div class="hero-content">
+      <div class="rotating-services-container">
+        <div class="company-logo">
+          <h1 class="company-name">Finspire</h1>
+          <p class="company-tagline">Software Solutions</p>
+        </div>
+        
+        <div class="services-wrapper" #servicesWrapper>
+          <div class="service" *ngFor="let service of services" (click)="navigate(service.link)"
+              (mouseenter)="hoveredService = service" (mouseleave)="hoveredService = null"
+              [class.hovered]="hoveredService === service" tabindex="0" role="button"
+              [attr.aria-label]="service.ariaLabel">
+              <div class="service-icon">
+                <i [class]="service.icon"></i>
+              </div>
+              <span class="service-name">{{ service.name }}</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="hero-text">
+        <h2 class="hero-title">Smart Water Solutions For a Healthier Lifestyle</h2>
+        <p class="hero-description">
+         We offer high-efficiency water purification systems engineered
+          to remove impurities, chemicals, and contaminants. Enjoy consistent clean water and long-lasting performance backed by expert support.
+        </p>
+        <div class="hero-actions">
+          <a routerLink="/services" class="btn btn-primary">Explore Services</a>
+          <a routerLink="/contact-us" class="btn btn-outline">Get In Touch</a>
+        </div>
+      </div>
+      </div>
+  </div> -->
+  <section class="hero-section">
+    <!-- Animated Water Background -->
+    <div class="background-effects">
+      <!-- Floating Bubbles -->
+      <div *ngFor="let bubble of bubbles" class="bubble" [style.width.px]="bubble.size" [style.height.px]="bubble.size"
+        [style.left.%]="bubble.left" [style.bottom.px]="bubble.bottom" [style.animationDuration.s]="bubble.duration"
+        [style.animationDelay.s]="bubble.delay">
+      </div>
+
+      <!-- Water Ripple Circles -->
+      <div class="ripple-container">
+        <div *ngFor="let ripple of ripples; let i = index" class="ripple-circle" [style.animationDelay.s]="i * 1.5">
+        </div>
+      </div>
+
+      <!-- Gradient Orbs -->
+      <div class="gradient-orb orb-1" [ngStyle]="getOrbStyle(0)"></div>
+      <div class="gradient-orb orb-2" [ngStyle]="getOrbStyle(1)"></div>
+    </div>
+
+    <!-- Wave SVG at bottom -->
+    <div class="wave-container">
+      <svg viewBox="0 0 1440 320" class="wave-svg">
+        <defs>
+          <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#0891b2" stop-opacity="0.3" />
+            <stop offset="50%" stop-color="#06b6d4" stop-opacity="0.5" />
+            <stop offset="100%" stop-color="#22d3ee" stop-opacity="0.3" />
+          </linearGradient>
+        </defs>
+        <path fill="url(#waveGradient)"
+          d="M0,160L48,170.7C96,181,192,203,288,192C384,181,480,139,576,138.7C672,139,768,181,864,197.3C960,213,1056,203,1152,176C1248,149,1344,107,1392,85.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+          class="wave-path">
+        </path>
+      </svg>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+      <div class="hero-content">
+        <!-- Left Side - Water Drop with Branding -->
+        <div class="hero-left">
+          <div class="water-drop-container">
+            <img src="assets/eagle.png" alt="" style="width: 300px;height: auto;">
+            <!-- Central Water Drop -->
+            <!-- <div class="water-drop">
+              <div class="drop-shape">
+                <div class="drop-shine-1"></div>
+                <div class="drop-shine-2"></div>
+              </div>
+              <div class="drop-inner-glow"></div>
+
+              
+              <div class="drop-content">
+                <h1 class="company-name">Aura</h1>
+                <p class="company-tagline">Water Management</p>
+              </div>
+            </div> -->
+
+            <!-- Small floating water drops -->
+            <div class="mini-drop mini-drop-1"></div>
+            <div class="mini-drop mini-drop-2"></div>
+            <div class="mini-drop mini-drop-3"></div>
+            <div class="mini-drop mini-drop-4"></div>
+
+            <!-- Rotating rings -->
+            <!-- <div class="rotating-ring ring-1"></div>
+            <div class="rotating-ring ring-2"></div> -->
+
+            <!-- Ripple effects around drop -->
+            <div *ngFor="let ripple of ripples; let i = index" class="drop-ripple" [style.animationDelay.s]="i * 1.2">
+            </div>
+          </div>
+
+          <!-- Premium Badge -->
+          <div class="premium-badge">
+            <span>✨ Premium Water Solutions</span>
+          </div>
+        </div>
+
+        <!-- Right Side - Hero Text -->
+        <div class="hero-right">
+          <h2 class="hero-title">
+            Smart Water Solutions
+            <span class="gradient-text">For a Healthier Lifestyle</span>
+          </h2>
+
+          <p class="hero-description">
+            We offer high-efficiency water purification systems engineered to remove impurities, chemicals, and
+            contaminants. Enjoy consistent clean water and long-lasting performance backed by expert support.
+          </p>
+
+          <!-- Stats -->
+          <div class="stats-container">
+            <div *ngFor="let stat of stats" class="stat-item">
+              <div class="stat-value">{{ stat.value }}</div>
+              <div class="stat-label">{{ stat.label }}</div>
+            </div>
+          </div>
+
+          <!-- CTA Buttons -->
+          <div class="hero-actions">
+            <a routerLink="/services" class="btn btn-primary">
+              <span>Explore Services</span>
+            </a>
+            <a routerLink="/contact-us" class="btn btn-outline">
+              Get In Touch
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</section>
+
+<!-- Services Preview Section -->
+<section class="section services-preview">
+  <div class="section-header">
+    <h2 class="section-title">Our Services</h2>
+    <p class="section-subtitle">
+      Quality water solutions that ensure clean, safe, and efficient water for every need.
+    </p>
+  </div>
+  <div class="container">
+    <div class="services-grid">
+      <div class="service-card" *ngFor="let service of services">
+        <div class="service-card-icon">
+          <i [class]="service.icon"></i>
+        </div>
+        <h3 class="service-card-title">{{service.name}}</h3>
+        <p class="service-card-description">Professional {{service.name.toLowerCase()}} services tailored to your needs
+        </p>
+      </div>
+    </div>
+
+    <div class="section-action">
+      <a routerLink="/services" class="btn btn-primary">View All Services</a>
+    </div>
+  </div>
+</section>
+
+<section class="recent-blogs-section">
+  <div class="container">
+    <!-- Section Header -->
+    <div class="section-header">
+      <h2 class="section-title">
+        Recent Blogs
+        <span class="title-dot"></span>
+      </h2>
+      <p class="section-subtitle">
+        Stay updated with the latest insights on water purification and management
+      </p>
+    </div>
+
+    <!-- Blogs Grid -->
+    <div class="blogs-grid">
+      <article class="blog-card" *ngFor="let blog of blogs">
+        <!-- Blog Image -->
+        <div class="blog-image-wrapper">
+          <a [routerLink]="['/blog', blog.slug]">
+            <img [src]="blog.image" [alt]="blog.title" class="blog-image">
+            <div class="image-overlay"></div>
+          </a>
+          <span class="blog-category">{{ blog.category }}</span>
+        </div>
+
+        <!-- Blog Content -->
+        <div class="blog-content">
+          <h3 class="blog-title">
+            <a [routerLink]="['/blog', blog.slug]">{{ blog.title }}</a>
+          </h3>
+
+          <!-- Blog Meta -->
+          <div class="blog-meta">
+            <span class="meta-item">
+              <i class="fas fa-user"></i>
+              By {{ blog.author }}
+            </span>
+            <span class="meta-item">
+              <i class="fas fa-calendar-alt"></i>
+              {{ blog.date }}
+            </span>
+          </div>
+
+          <!-- Blog Excerpt -->
+          <p class="blog-excerpt">{{ blog.excerpt }}</p>
+
+          <!-- Read More Link -->
+          <a [routerLink]="['/blog', blog.slug]" class="read-more">
+            Read More
+            <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </article>
+    </div>
+
+    <!-- View All Button -->
+    <div class="section-action">
+      <a routerLink="/blog" class="btn btn-primary">
+        View All Blogs
+        <i class="fas fa-arrow-right"></i>
+      </a>
+    </div>
+  </div>
+</section>
+<!-- Works Preview Section -->
+<!-- <section class="section section-dark works-preview">
+  <div class="container">
+    <h2 class="section-title">Our Recent Works</h2>
+    <p class="section-subtitle">Showcasing our latest projects and achievements</p>
+
+    <div class="works-grid">
+      <div class="work-card" *ngFor="let work of works">
+        <div class="work-image">
+          <div class="work-placeholder">
+            <img [src]="work.image" [alt]="work.title">
+          </div>
+        </div>
+        <div class="work-content">
+          <h3 class="work-title">{{work.title}}</h3>
+          <span class="work-category">{{work.category}}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-action">
+      <a routerLink="/our-works" class="btn btn-primary">View All Works</a>
+    </div>
+  </div>
+</section> -->
+<app-recent-projects></app-recent-projects>
+<!-- About Preview Section -->
+<app-client-review></app-client-review>
+<!-- Clients Preview Section -->
+
+<!-- Contact Preview Section -->
+<section class="section section-dark contact-preview">
+  <div class="container">
+    <div class="contact-content">
+      <h2 class="section-title">Ready to Start Your Project?</h2>
+      <p class="section-subtitle">Let's discuss how we can help bring your ideas to life</p>
+      <div class="contact-info">
+        <div class="contact-item">
+          <i class="fas fa-envelope"></i>
+          <span>aurawaterpvt@gmail. com</span>
+        </div>
+        <div class="contact-item">
+          <i class="fas fa-phone"></i>
+          <span>0707060028</span>
+        </div>
+        <div class="contact-item">
+          <i class="fas fa-map-marker-alt"></i>
+          <span>No 419, Sawmill Road, Thirunagar south, Kilinochchi, Nothern Province, Sri Lanka</span>
+        </div>
+      </div>
+      <a routerLink="/contact-us" class="btn btn-primary">Contact Us</a>
+    </div>
+  </div>
+</section>

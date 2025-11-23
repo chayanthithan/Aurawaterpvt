@@ -1,0 +1,7 @@
+<ng-container *ngIf="loader.loading$ | async">
+  <div class="loader-backdrop" aria-hidden="true"></div>
+  <div class="loader-overlay" role="status" aria-live="polite" aria-busy="true">
+    <div class="spinner"></div>
+    <div class="label">Loading...</div>
+  </div>
+</ng-container>

@@ -1,0 +1,485 @@
+<div class="admin-page">
+  <!-- Header -->
+  <div class="admin-header">
+    <div class="container">
+      <h1 class="admin-title">
+        <i class="fas fa-cog"></i>
+        Admin Dashboard
+      </h1>
+      <p class="admin-subtitle">Manage projects and portfolio content</p>
+      <div class="admin-actions" style="text-align: right; margin-top: 10px;">
+        <button class="btn btn-danger" (click)="logout()">
+          <i class="fas fa-sign-out-alt"></i>
+          Logout
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabs Navigation (moved outside of tab panels to avoid template narrowing issues) -->
+  <div class="tabs-nav">
+    <div class="container">
+      <button class="tab-btn" [class.active]="activeTab == 'projects'" (click)="setTab('projects')">
+        <i class="fas fa-project-diagram"></i>
+        Projects
+      </button>
+      <button class="tab-btn" [class.active]="activeTab == 'blogs'" (click)="setTab('blogs')">
+        <i class="fas fa-blog"></i>
+        Blog
+      </button>
+      <button class="tab-btn" [class.active]="activeTab == 'tracking'" (click)="setTab('tracking')">
+        <i class="fas fa-tasks"></i>
+        Tracking
+      </button>
+      <button class="tab-btn" [class.active]="activeTab == 'clients'" (click)="setTab('clients')">
+        <i class="fas fa-user-tie"></i>
+        Clients
+      </button>
+      <button class="tab-btn" [class.active]="activeTab == 'finance'" (click)="setTab('finance')">
+        <i class="fas fa-coins"></i>
+        Finance
+      </button>
+    </div>
+  </div>
+
+  <!-- Projects Tab Panel -->
+  <ng-container *ngIf="activeTab==='projects'">
+    <!-- Controls (Projects) -->
+    <div class="admin-controls">
+      <div class="container">
+        <div class="controls-row">
+          <div class="filter-section">
+            <label>Filter by Category:</label>
+            <select [(ngModel)]="selectedCategory" (change)="filterProjects(selectedCategory)" class="filter-select">
+              <option *ngFor="let category of categories" [value]="category">{{category}}</option>
+            </select>
+          </div>
+          <button class="btn btn-primary" (click)="startAddingProject()">
+            <i class="fas fa-plus"></i>
+            Add New Project
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add/Edit Project Form -->
+    <div class="project-form-section" *ngIf="isAddingProject || editingProject">
+      <div class="container">
+        <div class="form-container">
+          <h2 class="form-title">
+            {{isAddingProject ? 'Add New Project' : 'Edit Project'}}
+          </h2>
+          
+          <form [formGroup]="projectsForm" #projectForm="ngForm" class="project-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="title">Project Title *</label>
+                <input 
+                  formControlName="title"
+                  type="text" 
+                  id="title" 
+                  name="title"
+                  required 
+                  class="form-control"
+                  placeholder="Enter project title">
+              </div>
+              <div class="form-group">
+                <label for="category">Category *</label>
+                <select 
+                  formControlName="category"
+                  id="category" 
+                  name="category"
+                  required 
+                  class="form-control">
+                  <option value="">Select Category</option>
+                  <option *ngFor="let cat of availableCategories" [value]="cat">{{cat}}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="description">Description *</label>
+              <textarea 
+                formControlName="description"
+                id="description" 
+                name="description"
+                required 
+                rows="4" 
+                class="form-control"
+                placeholder="Enter project description"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="media">Media (Image or Video)</label>
+              <input
+                id="media"
+                type="file"
+                accept="image/*,video/*"
+                (change)="onFileSelected($event, isAddingProject ? 'new' : 'edit')"
+                class="form-control" />
+
+              <div class="media-preview" *ngIf="formMedia">
+                <ng-container *ngIf="formMediaType === 'video'; else imagePreview">
+                  <video class="preview-video" [src]="formMedia" controls preload="metadata"></video>
+                </ng-container>
+                <ng-template #imagePreview>
+                  <img class="preview-image" [src]="formMedia" alt="Project media preview" />
+                </ng-template>
+
+                <button type="button" class="btn btn-danger btn-sm" (click)="removeMedia(isAddingProject ? 'new' : 'edit')">
+                  Remove Media
+                </button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Technologies</label>
+              <div class="tech-input-container">
+                <input 
+                  formControlName="technologies"
+                  type="text" 
+                  #techInput
+                  class="form-control tech-input"
+                  placeholder="Enter technology and press Enter"
+                  (keypress)="onTechKeyPress($event, techInput)">
+                <button type="button" class="btn btn-outline" (click)="addTechnology(techInput.value); techInput.value = ''">
+                  Add
+                </button>
+              </div>
+              <div class="tech-tags" *ngIf="(isAddingProject ? newProject.technologies : editingProject?.technologies)?.length">
+                <span 
+                  *ngFor="let tech of (isAddingProject ? newProject.technologies : editingProject!.technologies); let i = index" 
+                  class="tech-tag">
+                  {{tech}}
+                  <i class="fas fa-times" (click)="removeTechnology(i)"></i>
+                </span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="checkbox-label">
+                <input 
+                formControlName="featured"
+                  type="checkbox" 
+                  name="featured">
+                <span class="checkmark"></span>
+                Featured Project
+              </label>
+            </div>
+
+            <div class="form-actions">
+              <button (click)="saveProject()" type="button" class="btn btn-primary">
+                {{isAddingProject ? 'Add Project' : 'Update Project'}}
+              </button>
+              <button type="button" class="btn btn-outline" (click)="cancelEdit()">
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Projects List -->
+    <div class="projects-section">
+      <div class="container">
+        <div class="projects-header">
+          <h2 class="projects-title">
+            Projects ({{filteredProjects.length}})
+          </h2>
+        </div>
+
+        <div class="projects-grid">
+          <div class="project-card" *ngFor="let project of filteredProjects">
+            <div class="project-image">
+              <ng-container *ngIf="project.image; else projectPlaceholder">
+                <ng-container *ngIf="project.mediaType === 'video'; else cardImage">
+                  <video class="card-video" [src]="project.image" controls preload="metadata"></video>
+                </ng-container>
+                <ng-template #cardImage>
+                  <img class="card-image" [src]="project.image" alt="{{project.title}}" />
+                </ng-template>
+              </ng-container>
+              <ng-template #projectPlaceholder>
+                <div class="project-placeholder">
+                  <i class="fas fa-image"></i>
+                </div>
+              </ng-template>
+              <div class="project-badges">
+                <span class="category-badge">{{project.category}}</span>
+                <span class="featured-badge" *ngIf="project.featured">
+                  <i class="fas fa-star"></i>
+                  Featured
+                </span>
+              </div>
+            </div>
+            
+            <div class="project-content">
+              <h3 class="project-title">{{project.title}}</h3>
+              <p class="project-description">{{project.description}}</p>
+              
+              <div class="project-technologies">
+                <span class="tech-tag" *ngFor="let tech of project.technologies">{{tech}}</span>
+              </div>
+              
+              <div class="project-meta">
+                <span class="project-date">
+                  <i class="fas fa-calendar"></i>
+                  {{project.createdDate | date:'MMM dd, yyyy'}}
+                </span>
+              </div>
+              
+              <div class="project-actions">
+                <button class="btn btn-outline btn-sm" (click)="startEditingProject(project)">
+                  <i class="fas fa-edit"></i>
+                  Edit
+                </button>
+                <button class="btn btn-danger btn-sm" (click)="deleteProject(project.id)">
+                  <i class="fas fa-trash"></i>
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="empty-state" *ngIf="filteredProjects.length === 0">
+          <i class="fas fa-folder-open"></i>
+          <h3>No projects found</h3>
+          <p>{{selectedCategory === 'All' ? 'No projects available' : 'No projects in this category'}}</p>
+          <button class="btn btn-primary" (click)="startAddingProject()">
+            Add First Project
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- Blog Tab Panel -->
+  <ng-container *ngIf="activeTab==='blogs'">
+    <!-- Blog Actions -->
+    <div class="admin-controls">
+      <div class="container">
+        <div class="controls-row" style="justify-content: flex-end;">
+          <button class="btn btn-outline" (click)="startAddingBlog()">
+            <i class="fas fa-blog"></i>
+            Add New Blog
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add/Edit Blog Form -->
+    <div class="project-form-section" *ngIf="isAddingBlog || editingBlog">
+      <div class="container">
+        <div class="form-container">
+          <h2 class="form-title">
+            {{isAddingBlog ? 'Add New Blog Post' : 'Edit Blog Post'}}
+          </h2>
+
+          <form [formGroup]="blogsForm" class="project-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="blogTitle">Title *</label>
+                <input 
+                  type="text" 
+                  id="blogTitle" 
+                  formControlName="title"
+                  required 
+                  class="form-control"
+                  placeholder="Enter blog title">
+              </div>
+              <div class="form-group">
+                <label class="checkbox-label">
+                  <input 
+                    type="checkbox" 
+                    formControlName="published">
+                  <span class="checkmark"></span>
+                  Published
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="blogContent">Content *</label>
+              <textarea 
+                id="blogContent" 
+                formControlName="content"
+                required 
+                rows="6" 
+                class="form-control"
+                placeholder="Write your content..."></textarea>
+            </div>
+
+            <!-- Blog Tags -->
+            <div class="form-group">
+              <label>Tags</label>
+              <div class="tech-input-container">
+                <input
+                  type="text"
+                  #tagInput
+                  class="form-control tech-input"
+                  placeholder="Enter tag and press Enter"
+                  (keypress)="onTagKeyPress($event, tagInput)"
+                />
+                <button type="button" class="btn btn-outline" (click)="addTagControl(tagInput.value); tagInput.value = ''">
+                  Add
+                </button>
+              </div>
+              <div class="tech-tags" *ngIf="tagsFA?.length">
+                <span class="tech-tag" *ngFor="let ctrl of tagsFA.controls; let i = index">
+                  #{{ ctrl.value }}
+                  <i class="fas fa-times" (click)="removeTag(i)"></i>
+                </span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="cover">Cover Image</label>
+              <input
+                id="cover"
+                type="file"
+                accept="image/*"
+                (change)="onBlogCoverSelected($event, isAddingBlog ? 'new' : 'edit')"
+                class="form-control" />
+
+              <div class="media-preview" *ngIf="blogFormCover">
+                <img class="preview-image" [src]="blogFormCover" alt="Blog cover preview" />
+                <button type="button" class="btn btn-danger btn-sm" (click)="removeBlogCover(isAddingBlog ? 'new' : 'edit')">
+                  Remove Cover
+                </button>
+              </div>
+
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label>GitHub Link</label>
+                <div class="tech-input-container">
+                  <input
+                    type="text"
+                    class="form-control tech-input"
+                    placeholder="Enter GitHub link"
+                    formControlName="githubLink"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Facebook Link</label>
+                <div class="tech-input-container">
+                  <input
+                    type="text"
+                    class="form-control tech-input"
+                    placeholder="Enter Facebook link"
+                    formControlName="facebookLink"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Instagram Link</label>
+                <div class="tech-input-container">
+                  <input
+                    type="text"
+                    class="form-control tech-input"
+                    placeholder="Enter Instagram link"
+                    formControlName="instagramLink"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label>LinkedIn Link</label>
+                <div class="tech-input-container">
+                  <input
+                    type="text"
+                    class="form-control tech-input"
+                    placeholder="Enter LinkedIn link"
+                    formControlName="linkedinLink"
+                  />
+                </div>
+              </div>
+            </div>
+            
+            <div class="form-actions">
+              <button (click)="saveBlog()" type="button" class="btn btn-primary">
+                {{isAddingBlog ? 'Add Post' : 'Update Post'}}
+              </button>
+              <button type="button" class="btn btn-outline" (click)="cancelBlogEdit()">
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Blogs List -->
+    <div class="projects-section">
+      <div class="container">
+        <div class="projects-header">
+          <h2 class="projects-title">
+            Blog Posts ({{blogs.length}})
+          </h2>
+        </div>
+
+        <div class="projects-grid">
+          <div class="project-card" *ngFor="let post of blogs">
+            <div class="project-image">
+              <ng-container *ngIf="post.coverImage; else blogPlaceholder">
+                <img class="card-image" [src]="post.coverImage" alt="{{post.title}}" />
+              </ng-container>
+              <ng-template #blogPlaceholder>
+                <div class="project-placeholder">
+                  <i class="fas fa-image"></i>
+                </div>
+              </ng-template>
+            </div>
+            
+            <div class="project-content">
+              <h3 class="project-title">{{ post.title || 'Untitled Post' }}</h3>
+              <p class="project-description">{{ post.content || 'No description provided.' }}</p>
+              <div class="project-technologies">
+                <ng-container *ngIf="post.tags && post.tags.length; else noTags">
+                  <span class="tech-tag" *ngFor="let t of post.tags">#{{t}}</span>
+                </ng-container>
+                <ng-template #noTags>
+                  <span class="tech-tag">#general</span>
+                </ng-template>
+              </div>
+              <div class="project-meta">
+                <span class="project-date">
+                  <i class="fas fa-calendar"></i>
+                  {{post.createdDate | date:'MMM dd, yyyy'}}
+                </span>
+                <span class="project-date">
+                  <i class="fas" [class.fa-eye]="post.published" [class.fa-eye-slash]="!post.published"></i>
+                  {{post.published ? 'Published' : 'Draft'}}
+                </span>
+              </div>
+              <div class="project-actions">
+                <button class="btn btn-outline btn-sm" (click)="startEditingBlog(post)">
+                  <i class="fas fa-edit"></i>
+                  Edit
+                </button>
+                <button class="btn btn-danger btn-sm" (click)="deleteBlog(post.id)">
+                  <i class="fas fa-trash"></i>
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="empty-state" *ngIf="blogs.length === 0">
+          <i class="fas fa-file-alt"></i>
+          <h3>No blog posts found</h3>
+          <p>Create your first blog post to get started.</p>
+          <button class="btn btn-primary" (click)="startAddingBlog()">
+            Add First Blog Post
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>

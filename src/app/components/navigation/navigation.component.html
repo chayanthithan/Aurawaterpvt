@@ -1,0 +1,45 @@
+<nav class="navbar">
+  <div class="container">
+    <div class="navbar-brand">
+      <a routerLink="/" class="brand-link">
+        <app-logo></app-logo>
+      </a>
+      
+    </div>
+    
+    <div class="navbar-menu" [class.is-active]="isMenuOpen">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" 
+             class="nav-link" (click)="closeMenu()">Home</a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/services" routerLinkActive="active" 
+             class="nav-link" (click)="closeMenu()">Services</a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/our-works" routerLinkActive="active" 
+             class="nav-link" (click)="closeMenu()">Our Works</a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/about-us" routerLinkActive="active" 
+             class="nav-link" (click)="closeMenu()">About Us</a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/blog" routerLinkActive="active" 
+             class="nav-link" (click)="closeMenu()">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/contact-us" routerLinkActive="active" 
+             class="nav-link" (click)="closeMenu()">Contact Us</a>
+        </li>
+      </ul>
+    </div>
+    
+    <div class="navbar-toggle" (click)="toggleMenu()">
+      <span class="toggle-line" [class.active]="isMenuOpen"></span>
+      <span class="toggle-line" [class.active]="isMenuOpen"></span>
+      <span class="toggle-line" [class.active]="isMenuOpen"></span>
+    </div>
+  </div>
+</nav>

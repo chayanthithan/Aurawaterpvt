@@ -1,0 +1,479 @@
+.admin-page {
+  padding-top: 80px;
+  min-height: 100vh;
+  background: #f8fafc;
+
+  .admin-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 3rem 0;
+
+    .admin-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+
+      i {
+        font-size: 2rem;
+      }
+    }
+
+    .admin-subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+    }
+  }
+
+  // Tabs navigation
+  .tabs-nav {
+    background: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
+    .container {
+      display: flex;
+      gap: 1rem;
+      padding: 0.75rem 0;
+    }
+    .tab-btn {
+      background: transparent;
+      border: none;
+      padding: 0.75rem 1.25rem;
+      border-radius: 999px;
+      color: #374151;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 2px solid transparent;
+
+      i { color: #667eea; }
+
+      &:hover {
+        background: #f8fafc;
+        border-color: #e5e7eb;
+      }
+
+      &.active {
+        background: linear-gradient(135deg, #667eea1a 0%, #764ba21a 100%);
+        color: #1f2937;
+        border-color: #c7d2fe;
+      }
+    }
+  }
+
+  .admin-controls {
+    background: white;
+    padding: 2rem 0;
+    border-bottom: 1px solid #e2e8f0;
+
+    .controls-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 2rem;
+
+      .filter-section {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        label {
+          font-weight: 500;
+          color: #374151;
+        }
+
+        .filter-select {
+          padding: 0.5rem 1rem;
+          border: 2px solid #e5e7eb;
+          border-radius: 8px;
+          background: white;
+          min-width: 200px;
+
+          &:focus {
+            outline: none;
+            border-color: #667eea;
+          }
+        }
+      }
+    }
+  }
+
+  .project-form-section {
+    background: white;
+    padding: 2rem 0;
+    border-bottom: 1px solid #e2e8f0;
+
+    .form-container {
+      max-width: 800px;
+      margin: 0 auto;
+
+      .form-title {
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: #1a202c;
+        margin-bottom: 2rem;
+        text-align: center;
+      }
+
+      .project-form {
+        .form-row {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 1.5rem;
+        }
+
+        .form-group {
+          margin-bottom: 1.5rem;
+
+          label {
+            display: block;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 0.5rem;
+          }
+
+          .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+
+            &:focus {
+              outline: none;
+              border-color: #667eea;
+              box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            }
+          }
+
+          .media-preview {
+            margin-top: 0.75rem;
+            display: inline-flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            align-items: flex-start;
+
+            .preview-image,
+            .preview-video {
+              width: 100%;
+              max-width: 360px;
+              height: 200px;
+              object-fit: cover;
+              border-radius: 10px;
+              border: 1px solid #e5e7eb;
+              background: #f8fafc;
+            }
+
+            .preview-video {
+              height: 220px;
+            }
+          }
+
+          .tech-input-container {
+            display: flex;
+            gap: 0.5rem;
+
+            .tech-input {
+              flex: 1;
+            }
+          }
+
+          .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+
+            .tech-tag {
+              background: #f1f5f9;
+              color: #667eea;
+              padding: 0.25rem 0.75rem;
+              border-radius: 12px;
+              font-size: 0.8rem;
+              font-weight: 500;
+              border: 1px solid #e2e8f0;
+              display: flex;
+              align-items: center;
+              gap: 0.5rem;
+
+              i {
+                cursor: pointer;
+                color: #ef4444;
+
+                &:hover {
+                  color: #dc2626;
+                }
+              }
+            }
+          }
+
+          .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            font-weight: 500;
+
+            input[type="checkbox"] {
+              width: auto;
+              margin: 0;
+            }
+          }
+        }
+
+        .form-actions {
+          display: flex;
+          gap: 1rem;
+          justify-content: center;
+          margin-top: 2rem;
+        }
+      }
+    }
+  }
+
+  .projects-section {
+    padding: 2rem 0;
+
+    .projects-header {
+      margin-bottom: 2rem;
+
+      .projects-title {
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: #1a202c;
+      }
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 2rem;
+
+      .project-card {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        border: 1px solid #e2e8f0;
+
+        &:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 15px 40px rgba(102, 126, 234, 0.2);
+        }
+
+        .project-image {
+          height: 200px;
+          background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          img.card-image,
+          video.card-video {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+          }
+
+          .project-placeholder {
+            font-size: 3rem;
+            color: #cbd5e1;
+          }
+
+          .project-badges {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+
+            .category-badge {
+              background: rgba(102, 126, 234, 0.9);
+              color: white;
+              padding: 0.25rem 0.75rem;
+              border-radius: 12px;
+              font-size: 0.8rem;
+              font-weight: 500;
+            }
+
+            .featured-badge {
+              background: rgba(245, 158, 11, 0.9);
+              color: white;
+              padding: 0.25rem 0.75rem;
+              border-radius: 12px;
+              font-size: 0.8rem;
+              font-weight: 500;
+              display: flex;
+              align-items: center;
+              gap: 0.25rem;
+            }
+          }
+        }
+
+        .project-content {
+          padding: 1.5rem;
+
+          .project-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #1a202c;
+            margin-top: 0;
+            margin-bottom: 0.75rem;
+          }
+
+          .project-description {
+            color: #64748b;
+            line-height: 1.6;
+            margin-top: 0.4rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            text-align: justify;
+          }
+
+          .project-technologies {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+
+            .tech-tag {
+              background: #f1f5f9;
+              color: #667eea;
+              padding: 0.25rem 0.75rem;
+              border-radius: 12px;
+              font-size: 0.8rem;
+              font-weight: 500;
+              border: 1px solid #e2e8f0;
+            }
+          }
+
+          .project-meta {
+            margin-bottom: 1rem;
+
+            .project-date {
+              color: #64748b;
+              font-size: 0.9rem;
+              display: flex;
+              align-items: center;
+              gap: 0.5rem;
+
+              i {
+                color: #667eea;
+              }
+            }
+          }
+
+          .project-actions {
+            display: flex;
+            gap: 0.5rem;
+
+            .btn-sm {
+              padding: 0.5rem 1rem;
+              font-size: 0.9rem;
+            }
+
+            .btn-danger {
+              background: #ef4444;
+              color: white;
+              border: 2px solid #ef4444;
+
+              &:hover {
+                background: #dc2626;
+                border-color: #dc2626;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: #64748b;
+
+      i {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        color: #cbd5e1;
+      }
+
+      h3 {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+        color: #374151;
+      }
+
+      p {
+        margin-bottom: 2rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-page {
+    .admin-header {
+      .admin-title {
+        font-size: 2rem;
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
+      }
+
+      .admin-subtitle {
+        font-size: 1rem;
+        text-align: center;
+      }
+    }
+
+    .admin-controls {
+      .controls-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+
+        .filter-section {
+          flex-direction: column;
+          align-items: stretch;
+          gap: 0.5rem;
+
+          .filter-select {
+            min-width: auto;
+          }
+        }
+      }
+    }
+
+    .project-form-section {
+      .form-container {
+        .project-form {
+          .form-row {
+            grid-template-columns: 1fr;
+          }
+
+          .form-actions {
+            flex-direction: column;
+          }
+        }
+      }
+    }
+
+    .projects-section {
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+}

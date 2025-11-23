@@ -1,0 +1,314 @@
+<div class="our-works-page" (keydown)="handleKeyPress($event)" tabindex="0">
+  <!-- Hero Section -->
+  <section class="page-banner">
+    <!-- Animated Background -->
+    <div class="background-effects">
+      <!-- Floating Bubbles -->
+      <div
+        *ngFor="let bubble of bubbles"
+        class="bubble"
+        [style.width.px]="bubble.size"
+        [style.height.px]="bubble.size"
+        [style.left.%]="bubble.left"
+        [style.animationDuration.s]="bubble.duration"
+        [style.animationDelay.s]="bubble.delay">
+      </div>
+
+      <!-- Gradient Orbs -->
+      <div class="gradient-orb orb-1"></div>
+      <div class="gradient-orb orb-2"></div>
+
+      <!-- Ripple Effects -->
+      <div class="ripple-container ripple-left">
+        <div
+          *ngFor="let ripple of ripples; let i = index"
+          class="ripple-circle"
+          [style.animationDelay.s]="i * 1.2">
+        </div>
+      </div>
+
+      <div class="ripple-container ripple-right">
+        <div
+          *ngFor="let ripple of ripples; let i = index"
+          class="ripple-circle"
+          [style.animationDelay.s]="i * 1.5">
+        </div>
+      </div>
+    </div>
+
+    <!-- Wave SVG at bottom -->
+    <div class="banner-wave-container">
+      <svg viewBox="0 0 1440 120" preserveAspectRatio="none" class="banner-wave-svg">
+        <defs>
+          <linearGradient id="bannerWaveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#0891b2" stop-opacity="0.3" />
+            <stop offset="50%" stop-color="#06b6d4" stop-opacity="0.5" />
+            <stop offset="100%" stop-color="#22d3ee" stop-opacity="0.3" />
+          </linearGradient>
+        </defs>
+        <path
+          fill="url(#bannerWaveGradient)"
+          d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z"
+          class="banner-wave-path">
+        </path>
+      </svg>
+    </div>
+
+    <!-- Content -->
+    <div class="container">
+      <div class="banner-content">
+        <!-- Water Drop Icon -->
+        <div class="water-drop-icon">
+          <div class="drop-shape">
+            <div class="drop-shine"></div>
+          </div>
+        </div>
+
+        <!-- Breadcrumbs -->
+        <nav class="breadcrumbs" *ngIf="breadcrumbs.length > 0">
+          <a routerLink="/" class="breadcrumb-item">
+            <i class="fas fa-home"></i>
+            Home
+          </a>
+          <span class="breadcrumb-separator">
+            <i class="fas fa-chevron-right"></i>
+          </span>
+          <ng-container *ngFor="let crumb of breadcrumbs; let last = last">
+            <a *ngIf="crumb.link && !last" [routerLink]="crumb.link" class="breadcrumb-item">
+              {{ crumb.label }}
+            </a>
+            <span *ngIf="!crumb.link || last" class="breadcrumb-item active">
+              {{ crumb.label }}
+            </span>
+            <span *ngIf="!last" class="breadcrumb-separator">
+              <i class="fas fa-chevron-right"></i>
+            </span>
+          </ng-container>
+        </nav>
+
+        <!-- Title -->
+        <h1 class="banner-title">{{ title }}</h1>
+
+        <!-- Subtitle -->
+        <p class="banner-subtitle" *ngIf="subtitle">{{ subtitle }}</p>
+
+        <!-- Decorative Line -->
+        <div class="title-decoration">
+          <span class="decoration-line"></span>
+          <span class="decoration-dot"></span>
+          <span class="decoration-line"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <div class="filter-section">
+    <div class="container">
+      <div class="filter-buttons">
+        <button 
+          *ngFor="let category of categories" 
+          class="filter-btn"
+          [class.active]="selectedCategory === category"
+          (click)="filterWorks(category)">
+          {{category}}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Works Grid -->
+  <section class="works-section">
+    <div class="container">
+      <div class="works-grid">
+        <div class="work-card" *ngFor="let work of filteredWorks">
+          <div class="work-image">
+            <ng-container *ngIf="work.image; else workPlaceholder">
+              <ng-container *ngIf="work.mediaType === 'video'; else workImage">
+                <video class="work-video" [src]="work.image" controls preload="metadata"></video>
+              </ng-container>
+              <ng-template #workImage>
+                <img class="work-img" [src]="work.image" alt="{{work.title}}" />
+              </ng-template>
+            </ng-container>
+            <ng-template #workPlaceholder>
+              <div class="work-placeholder">
+                <i class="fas fa-image"></i>
+              </div>
+            </ng-template>
+            <div class="work-overlay">
+              <div class="work-category">{{work.category}}</div>
+            </div>
+          </div>
+          <div class="work-content">
+            <h3 class="work-title">{{work.title}}</h3>
+            <p class="work-description">{{ work.description | slice:0:140 }}<span *ngIf="isLongDescription(work, 140)">...</span></p>
+            <button class="link-button" (click)="openWork(work)">Read more</button>
+            <div class="work-technologies">
+              <span class="tech-tag" *ngFor="let tech of work.technologies">{{tech}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Installation Gallery Section -->
+  <section class="section gallery-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">
+          <i class="fas fa-camera"></i>
+          Installation Gallery
+        </h2>
+        <p class="section-subtitle">
+          Real installations showcasing our professional workmanship
+        </p>
+      </div>
+
+      <!-- Gallery Filter -->
+      <div class="filter-buttons">
+        <button 
+          *ngFor="let category of galleryCategories" 
+          class="filter-btn"
+          [class.active]="selectedGalleryCategory === category"
+          (click)="filterGallery(category)">
+          {{category}}
+        </button>
+      </div>
+
+      <!-- Gallery Grid -->
+      <div class="gallery-grid">
+        <div 
+          class="gallery-item" 
+          *ngFor="let image of filteredGalleryImages"
+          (click)="openGalleryImage(image)">
+          <div class="gallery-image-wrapper">
+            <img [src]="image.image" [alt]="image.title" class="gallery-image">
+            <div class="gallery-overlay">
+              <div class="gallery-info">
+                <i class="fas fa-search-plus"></i>
+                <span class="gallery-category-tag">{{ image.category }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="gallery-caption">
+            <h4 class="gallery-title">{{ image.title }}</h4>
+            <div class="gallery-meta">
+              <span class="gallery-location">
+                <i class="fas fa-map-marker-alt"></i>
+                {{ image.location }}
+              </span>
+              <span class="gallery-date">
+                <i class="fas fa-calendar"></i>
+                {{ image.date | date:'MMM yyyy' }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="section section-dark cta-section">
+    <div class="container">
+      <div class="cta-content">
+        <h2 class="cta-title">Have a Project in Mind?</h2>
+        <p class="cta-description">
+          Let's work together to bring your vision to life
+        </p>
+        <a routerLink="/contact-us" class="btn btn-primary">Start Your Project</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Work Modal -->
+  <div class="modal-backdrop" *ngIf="showWorkModal" (click)="closeWorkModal()"></div>
+  <div class="modal" *ngIf="showWorkModal">
+    <div class="modal-content">
+      <button class="modal-close" (click)="closeWorkModal()" aria-label="Close">
+        <i class="fas fa-times"></i>
+      </button>
+      <ng-container *ngIf="activeWork as work">
+        <div class="modal-cover">
+          <ng-container *ngIf="work.mediaType === 'video'; else bigImage">
+            <video class="work-video" [src]="work.image" controls preload="metadata" style="width:100%; height:auto; border-radius:12px;"></video>
+          </ng-container>
+          <ng-template #bigImage>
+            <img [src]="work.image" [alt]="work.title" style="width:100%; height:420px; object-fit:contain; border-radius:12px;" />
+          </ng-template>
+        </div>
+        <h2 class="modal-title">{{ work.title }}</h2>
+        <div class="modal-meta">
+          <span class="tag">#{{ work.category }}</span>
+          <span class="dot">•</span>
+          <span class="tags-inline">
+            <span class="tag" *ngFor="let t of work.technologies">#{{ t }}</span>
+          </span>
+        </div>
+        <div class="modal-body">{{ work.description }}</div>
+      </ng-container>
+    </div>
+  </div>
+
+  <!-- Gallery Modal (Lightbox) -->
+  <div class="modal-backdrop" *ngIf="showGalleryModal" (click)="closeGalleryModal()"></div>
+  <div class="gallery-modal" *ngIf="showGalleryModal && activeGalleryImage">
+    <button class="modal-close" (click)="closeGalleryModal()" aria-label="Close">
+      <i class="fas fa-times"></i>
+    </button>
+    
+    <!-- Navigation Arrows -->
+    <button 
+      class="gallery-nav gallery-nav-prev" 
+      (click)="prevGalleryImage(); $event.stopPropagation()"
+      [disabled]="currentGalleryIndex === 0"
+      aria-label="Previous image">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+    
+    <button 
+      class="gallery-nav gallery-nav-next" 
+      (click)="nextGalleryImage(); $event.stopPropagation()"
+      [disabled]="currentGalleryIndex === filteredGalleryImages.length - 1"
+      aria-label="Next image">
+      <i class="fas fa-chevron-right"></i>
+    </button>
+
+    <!-- Image Container -->
+    <div class="gallery-modal-content" (click)="$event.stopPropagation()">
+      <div class="gallery-modal-image-wrapper">
+        <img 
+          [src]="activeGalleryImage.image" 
+          [alt]="activeGalleryImage.title"
+          class="gallery-modal-image">
+      </div>
+      
+      <div class="gallery-modal-details">
+        <h3 class="gallery-modal-title">{{ activeGalleryImage.title }}</h3>
+        
+        <div class="gallery-modal-meta">
+          <span class="meta-item">
+            <i class="fas fa-map-marker-alt"></i>
+            {{ activeGalleryImage.location }}
+          </span>
+          <span class="meta-item">
+            <i class="fas fa-calendar-alt"></i>
+            {{ activeGalleryImage.date | date:'MMMM dd, yyyy' }}
+          </span>
+          <span class="meta-item">
+            <i class="fas fa-tag"></i>
+            {{ activeGalleryImage.category }}
+          </span>
+        </div>
+        
+        <p class="gallery-modal-description">{{ activeGalleryImage.description }}</p>
+        
+        <div class="gallery-modal-counter">
+          Image {{ currentGalleryIndex + 1 }} of {{ filteredGalleryImages.length }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
